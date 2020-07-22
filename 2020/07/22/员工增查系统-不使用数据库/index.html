@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>员工增查系统(不使用数据库) | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="1.员工增查系统（哈希表实现）12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697">
+<meta property="og:type" content="article">
+<meta property="og:title" content="员工增查系统(不使用数据库)">
+<meta property="og:url" content="http://yoursite.com/2020/07/22/%E5%91%98%E5%B7%A5%E5%A2%9E%E6%9F%A5%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.员工增查系统（哈希表实现）12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-22T09:19:41.000Z">
+<meta property="article:modified_time" content="2020-07-22T09:20:50.155Z">
 <meta property="article:author" content="Simple Yi">
 <meta name="twitter:card" content="summary">
   
@@ -150,130 +154,155 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-员工增查系统-不使用数据库" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      员工增查系统(不使用数据库)
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/22/%E5%91%98%E5%B7%A5%E5%A2%9E%E6%9F%A5%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93/" class="archive-article-date">
+
+        
+        <a href="/2020/07/22/%E5%91%98%E5%B7%A5%E5%A2%9E%E6%9F%A5%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93/" class="archive-article-date">
   	<time datetime="2020-07-22T09:19:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-22</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/22/%E5%91%98%E5%B7%A5%E5%A2%9E%E6%9F%A5%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93/">员工增查系统(不使用数据库)</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-员工增查系统（哈希表实现）"><a href="#1-员工增查系统（哈希表实现）" class="headerlink" title="1.员工增查系统（哈希表实现）"></a>1.员工增查系统（哈希表实现）</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">public class HashTable &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		Emp e1 &#x3D; new Emp(8,&quot;小明&quot;);</span><br><span class="line">		EmpHashTable empHashTable &#x3D; new EmpHashTable(10);</span><br><span class="line">		empHashTable.add(e1);</span><br><span class="line">		empHashTable.findEmp(8);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">class Emp &#123;</span><br><span class="line">	 int id;</span><br><span class="line">	 String name;</span><br><span class="line">	Emp next;</span><br><span class="line">	public Emp(int id, String name) &#123;</span><br><span class="line">		super();</span><br><span class="line">		this.id &#x3D; id;</span><br><span class="line">		this.name &#x3D; name;</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public String toString() &#123;</span><br><span class="line">		return &quot;员工姓名:&quot;+name+&quot; ; 员工id:&quot;+id;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class EmpLinkedList&#123;</span><br><span class="line">	private Emp head;</span><br><span class="line">	</span><br><span class="line">	public void add(Emp emp) &#123;</span><br><span class="line">		if (head&#x3D;&#x3D;null) &#123;</span><br><span class="line">			head&#x3D;emp;</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line">		Emp tp &#x3D; head;</span><br><span class="line">		while(tp.next!&#x3D;null) &#123;</span><br><span class="line">			tp&#x3D;tp.next;</span><br><span class="line">		&#125;</span><br><span class="line">		tp.next&#x3D;emp;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void list() &#123;</span><br><span class="line">		if (head&#x3D;&#x3D;null) &#123;</span><br><span class="line">			System.out.println(&quot;空&quot;);</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			Emp tp &#x3D;head;</span><br><span class="line">			while(tp!&#x3D;null) &#123;</span><br><span class="line">				System.out.printf(&quot;员工id:%d姓名:%s\t&quot;,tp.id,tp.name);</span><br><span class="line">				tp&#x3D;tp.next;</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public Emp findEmp(int id) &#123;</span><br><span class="line">		if (head&#x3D;&#x3D;null) &#123;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			Emp temp &#x3D;head;</span><br><span class="line">			while(temp!&#x3D;null) &#123;</span><br><span class="line">				if (temp.id&#x3D;&#x3D;id) &#123;</span><br><span class="line">					return temp;</span><br><span class="line">				&#125;</span><br><span class="line">				temp&#x3D;temp.next;</span><br><span class="line">			&#125;</span><br><span class="line">			return null;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class EmpHashTable&#123;</span><br><span class="line">	int size;</span><br><span class="line">	EmpLinkedList[] empLinkedList;</span><br><span class="line">	public EmpHashTable(int size) &#123;</span><br><span class="line">		super();</span><br><span class="line">		this.size &#x3D; size;</span><br><span class="line">		empLinkedList&#x3D; new EmpLinkedList[size];</span><br><span class="line">		for (int i &#x3D; 0; i &lt; size; i++) &#123;</span><br><span class="line">			empLinkedList[i]&#x3D;new EmpLinkedList();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	private int hashFun(int id) &#123;</span><br><span class="line">		return id%size;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void add(Emp emp) &#123;</span><br><span class="line">		int index &#x3D; hashFun(emp.id);</span><br><span class="line">		empLinkedList[index].add(emp);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public void list() &#123;</span><br><span class="line">		for (int i &#x3D; 0; i &lt; empLinkedList.length; i++) &#123;</span><br><span class="line">			empLinkedList[i].list();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	public void findEmp(int id) &#123;</span><br><span class="line">		System.out.println(empLinkedList[hashFun(id)].findEmp(id).toString());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/22/%E5%91%98%E5%B7%A5%E5%A2%9E%E6%9F%A5%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/21/%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%AE%80%E5%8D%95%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-07-21T12:08:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/21/%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%AE%80%E5%8D%95%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">一些常用简单查找算法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%AE%80%E5%8D%95%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/">一些常用简单查找算法</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/19/java%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F/" class="archive-article-date">
-  	<time datetime="2020-07-19T13:22:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/19/java%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F/">java基础排序算法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-07-18T13:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/">八皇后算法问题java简单实现</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -296,8 +325,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
