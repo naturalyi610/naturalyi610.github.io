@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | Hexo</title>
+  <title>压缩文件-哈夫曼编码实现 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+  <meta name="description" content="代码实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798991001011">
+<meta property="og:type" content="article">
+<meta property="og:title" content="压缩文件-哈夫曼编码实现">
+<meta property="og:url" content="http://yoursite.com/2020/07/27/%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6-%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="代码实现1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889909192939495969798991001011">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-27T09:44:48.000Z">
+<meta property="article:modified_time" content="2020-07-27T17:24:16.574Z">
 <meta property="article:author" content="Simple Yi">
 <meta name="twitter:card" content="summary">
   
@@ -150,292 +154,168 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-压缩文件-哈夫曼编码实现" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      压缩文件-哈夫曼编码实现
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/27/%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6-%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
+
+        
+        <a href="/2020/07/27/%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6-%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
   	<time datetime="2020-07-27T09:44:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-27</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/27/%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6-%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%AE%9E%E7%8E%B0/">压缩文件-哈夫曼编码实现</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line">public class HuffmanCode &#123;</span><br><span class="line">	static Map&lt;Byte, String&gt; codeMap &#x3D; new HashMap&lt;Byte, String&gt;();</span><br><span class="line">	static StringBuilder stringBuilder &#x3D; new StringBuilder();</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		String string &#x3D; &quot;I like java java like me&quot;;</span><br><span class="line">		byte[] stByte &#x3D; string.getBytes();</span><br><span class="line">		&#x2F;&#x2F;System.out.println(stByte.length);24</span><br><span class="line">		List&lt;Node&gt; arrayList&#x3D;getNode(stByte);</span><br><span class="line">		Node node&#x3D;creatHuffmanTree(arrayList);</span><br><span class="line">		preOrder(node);</span><br><span class="line">		getCode(node, &quot;&quot;, stringBuilder);</span><br><span class="line">		System.out.println(codeMap.toString());</span><br><span class="line">		byte[] by &#x3D;zip(codeMap, stByte);</span><br><span class="line">		System.out.println(Arrays.toString(by));</span><br><span class="line">		&#x2F;&#x2F;System.out.println(by.length);10</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	private static byte[] zip(Map&lt;Byte,String&gt; codemap,byte[] bytes) &#123;</span><br><span class="line">		int index&#x3D;0;</span><br><span class="line">		StringBuilder stringBuilder &#x3D; new StringBuilder();</span><br><span class="line">		for(byte b :bytes) &#123;</span><br><span class="line">			stringBuilder.append(codemap.get(b));</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(stringBuilder.toString());</span><br><span class="line">		int len &#x3D; (stringBuilder.length()+7)&#x2F;8;</span><br><span class="line">		&#x2F;&#x2F;System.out.println(len);</span><br><span class="line">		byte[] by &#x3D; new byte[len];</span><br><span class="line">		for (int i &#x3D; 0; i &lt; stringBuilder.length(); i+&#x3D;8) &#123;</span><br><span class="line">			String str;</span><br><span class="line">			if (i+8&lt;stringBuilder.length()) &#123;</span><br><span class="line">				str&#x3D;stringBuilder.substring(i, i+8);</span><br><span class="line">			&#125;else &#123;</span><br><span class="line">				str&#x3D;stringBuilder.substring(i);</span><br><span class="line">			&#125;</span><br><span class="line">			by[index]&#x3D;(byte)Integer.parseInt(str, 2);</span><br><span class="line">			index++;</span><br><span class="line">		&#125;</span><br><span class="line">		return by;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	private static void getCode(Node node,String code,StringBuilder stringBuilder) &#123;</span><br><span class="line">		StringBuilder stringBuilder2 &#x3D; new StringBuilder(stringBuilder);</span><br><span class="line">		stringBuilder2.append(code);</span><br><span class="line">		if (node!&#x3D;null) &#123;</span><br><span class="line">			if (node.data&#x3D;&#x3D;null) &#123;</span><br><span class="line">				getCode(node.leftNode, &quot;0&quot;, stringBuilder2);</span><br><span class="line">				getCode(node.rightNode, &quot;1&quot;, stringBuilder2);</span><br><span class="line">			&#125;else &#123;</span><br><span class="line">				codeMap.put(node.data, stringBuilder2.toString());</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	private static List&lt;Node&gt; getNode(byte[] bytes)&#123;</span><br><span class="line">		ArrayList&lt;Node&gt; nodeList&#x3D;new ArrayList&lt;Node&gt;();</span><br><span class="line">		</span><br><span class="line">		Map&lt;Byte,Integer&gt; counts &#x3D; new HashMap&lt;Byte, Integer&gt;();</span><br><span class="line">		for(byte b:bytes) &#123;</span><br><span class="line">			Integer count &#x3D; counts.get(b);</span><br><span class="line">			if (count&#x3D;&#x3D;null) &#123;</span><br><span class="line">				counts.put(b, 1);</span><br><span class="line">			&#125;else &#123;</span><br><span class="line">				counts.put(b,count+1);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		for(Map.Entry&lt;Byte, Integer&gt; entry:counts.entrySet()) &#123;</span><br><span class="line">			nodeList.add(new Node(entry.getKey(),entry.getValue()));</span><br><span class="line">		&#125;</span><br><span class="line">		return nodeList;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	private static Node creatHuffmanTree(List&lt;Node&gt; list) &#123;</span><br><span class="line">		while(list.size()&gt;1) &#123;</span><br><span class="line">			Collections.sort(list);</span><br><span class="line">			Node left&#x3D;list.get(0);</span><br><span class="line">			Node right&#x3D;list.get(1);</span><br><span class="line">			Node parent&#x3D;new Node(null,left.weight+right.weight);</span><br><span class="line">			parent.leftNode&#x3D;left;</span><br><span class="line">			parent.rightNode&#x3D;right;</span><br><span class="line">			list.remove(left);</span><br><span class="line">			list.remove(right);</span><br><span class="line">			list.add(parent);</span><br><span class="line">		&#125;</span><br><span class="line">		return list.get(0);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	private static void preOrder(Node node) &#123;</span><br><span class="line">		if (node&#x3D;&#x3D;null) &#123;</span><br><span class="line">			System.out.println(&quot;空节点不能遍历&quot;);</span><br><span class="line">		&#125;else &#123;</span><br><span class="line">			node.preOrder(node);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Node implements Comparable&lt;Node&gt;&#123;</span><br><span class="line">	Byte data;</span><br><span class="line">	int weight;</span><br><span class="line">	Node leftNode;</span><br><span class="line">	Node rightNode;</span><br><span class="line">	public Node(Byte data, int weight) &#123;</span><br><span class="line">		super();</span><br><span class="line">		this.data &#x3D; data;</span><br><span class="line">		this.weight &#x3D; weight;</span><br><span class="line">	&#125;</span><br><span class="line">	@Override</span><br><span class="line">	public int compareTo(Node o) &#123;</span><br><span class="line">		return this.weight-o.weight;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	@Override</span><br><span class="line">	public String toString() &#123;</span><br><span class="line">		return &quot;Node [data&#x3D;&quot; + data + &quot;, weight&#x3D;&quot; + weight + &quot;]&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">	public void preOrder(Node node) &#123;</span><br><span class="line">		System.out.println(node);</span><br><span class="line">		if (node.leftNode!&#x3D;null) &#123;</span><br><span class="line">			preOrder(node.leftNode);</span><br><span class="line">		&#125;</span><br><span class="line">		if (node.rightNode!&#x3D;null) &#123;</span><br><span class="line">			preOrder(node.rightNode);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/07/27/%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6-%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81%E5%AE%9E%E7%8E%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/27/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%88%9B%E5%BB%BA%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
-  	<time datetime="2020-07-27T03:17:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-27</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/07/27/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%88%9B%E5%BB%BA%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">哈夫曼树创建实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/27/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E5%88%9B%E5%BB%BA%E5%AE%9E%E7%8E%B0/">哈夫曼树创建实现</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#代码实现"><span class="toc-number">1.</span> <span class="toc-text">代码实现</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/25/%E5%A0%86%E6%8E%92%E5%BA%8F/" class="archive-article-date">
-  	<time datetime="2020-07-25T08:57:30.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-25</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/25/%E5%A0%86%E6%8E%92%E5%BA%8F/">堆排序</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/23/%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/" class="archive-article-date">
-  	<time datetime="2020-07-23T15:08:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/23/%E7%BA%BF%E7%B4%A2%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/">线索化二叉树(前中后序线索化+遍历)</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/23/%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/" class="archive-article-date">
-  	<time datetime="2020-07-23T11:13:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/23/%E9%A1%BA%E5%BA%8F%E5%AD%98%E5%82%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/">顺序存储二叉树遍历</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/23/java%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9B%B8%E5%85%B3/" class="archive-article-date">
-  	<time datetime="2020-07-22T16:22:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/23/java%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9B%B8%E5%85%B3/">java二叉树(遍历,查找,删除)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/22/%E5%91%98%E5%B7%A5%E5%A2%9E%E6%9F%A5%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93/" class="archive-article-date">
-  	<time datetime="2020-07-22T09:19:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/22/%E5%91%98%E5%B7%A5%E5%A2%9E%E6%9F%A5%E7%B3%BB%E7%BB%9F-%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93/">员工增查系统(不使用数据库)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/21/%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%AE%80%E5%8D%95%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-07-21T12:08:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/21/%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E7%AE%80%E5%8D%95%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/">一些常用简单查找算法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/19/java%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F/" class="archive-article-date">
-  	<time datetime="2020-07-19T13:22:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/19/java%E4%B8%80%E4%BA%9B%E7%AE%80%E5%8D%95%E6%8E%92%E5%BA%8F/">java基础排序算法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" class="archive-article-date">
-  	<time datetime="2020-07-18T13:36:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/18/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/">八皇后算法问题java简单实现</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -458,8 +338,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
